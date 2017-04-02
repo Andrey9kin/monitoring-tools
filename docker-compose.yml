@@ -1,0 +1,33 @@
+version: "2"
+
+services:
+  monit:
+    image: andrey9kin/monit-in-docker:1.1.1
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200m"
+        max-file: "3"
+    pid: host
+    network_mode: host
+    ports:
+      - 2812:2812
+    volumes:
+      - ${PWD}/monit:/monit-cfg
+
+  metricbeat:
+    image: andrey9kin/metricbeat-in-docker:1.1.0
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200m"
+        max-file: "3"
+    volumes:
+      - ${PWD}/metricbeat/cfg:/mb/cfg
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+    pid: host
+    network_mode: host
