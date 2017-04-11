@@ -15,6 +15,7 @@ services:
       - 2812:2812
     volumes:
       - ${PWD}/monit:/monit-cfg
+      - /:/hostfs:ro
 
   metricbeat:
     image: andrey9kin/metricbeat-in-docker:1.1.0
